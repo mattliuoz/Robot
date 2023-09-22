@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Fortune Game</title>
+    <style>
+        /* Add your CSS styling here */
+        #wheel {
+            width: 300px;
+            height: 300px;
+            background-image: url('your-wheel-image.png'); /* Replace with your wheel image */
+            background-size: cover;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        #wheel-inner {
+            width: 100%;
+            height: 100%;
+            transition: transform 5s ease-out;
+            transform-origin: center;
+        }
+
+        #spin-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Animation for spinning the wheel */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Wheel of Fortune Game!</h1>
+    
+    <div id="wheel">
+        <div id="wheel-inner"></div>
+    </div>
+    
+    <button id="spin-button" onclick="spinWheel()">Spin the Wheel</button>
+    
+    <div id="result">
+        <!-- Result of the spin goes here -->
+    </div>
+    
+    <script>
+        // JavaScript code for the game logic
+        const prizes = [
+            "Prize 1",
+            "Prize 2",
+            "Prize 3",
+            "Prize 4",
+            "Prize 5",
+            "Prize 6",
+            "Prize 7",
+            "Prize 8",
+            "Prize 9",
+            "Prize 10"
+        ];
+
+        const wheel = document.getElementById("wheel-inner");
+        const resultDisplay = document.getElementById("result");
+
+        function spinWheel() {
+            const randomAngle = Math.floor(Math.random() * 360); // Generate a random angle (0 to 359 degrees)
+            const rotation = 3600 + randomAngle; // Rotate the wheel multiple times before stopping
+            wheel.style.animation = "spin 5s ease-out"; // Apply the spinning animation
+            wheel.style.transform = `rotate(${rotation}deg)`; // Rotate the wheel
+
+            // Disable the spin button during the spin
+            document.getElementById("spin-button").disabled = true;
+
+            // Wait for the wheel to stop spinning (5 seconds) and display the result
+            setTimeout(() => {
+                const prizeIndex = Math.floor(randomAngle / 36); // Determine the prize based on the angle
+                const prize = prizes[prizeIndex];
+                resultDisplay.textContent = `You won: ${prize}`;
+                wheel.style.animation = ""; // Reset the animation
+                document.getElementById("spin-button").disabled = false; // Enable the spin button
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
